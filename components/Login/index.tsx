@@ -41,13 +41,13 @@ const LoginComponent = () => {
             <div className={styles.line}/>
           </div>
 
-          <div className={styles.checkContainer}>
+          {/* <div className={styles.checkContainer}>
             <div className={styles.checkBoxContainer} onClick={() => setMarked(!marked)}>
               <Image src={marked == false ? nonmarkedsvg : markedsvg} alt='Stay Logged' />
             </div>
 
             <div className={styles.text}>Stay logged in</div>
-          </div>
+          </div> */}
 
           <div className={styles.buttonContainer}>
             <div className={styles.button}>
@@ -55,13 +55,13 @@ const LoginComponent = () => {
             </div>
           </div>
 
-          <DataNotMatch />
+          
 
-          <div className={styles.centerForgot}>
+          {/* <div className={styles.centerForgot}>
             <div className={styles.forgot}>
               I forgot my password
             </div>
-          </div>
+          </div> */}
 
           <div className={styles.registerContainer}>
             You don&apos;t have an account? <span onClick={() => window.open('/signup', '_self')}>Sign up</span>

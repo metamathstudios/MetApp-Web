@@ -8,6 +8,7 @@ import disconnect from './assets/disconnect.svg'
 import settings from './assets/settings.svg'
 
 const SideBar = () => {
+
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
