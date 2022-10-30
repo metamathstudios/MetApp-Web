@@ -6,17 +6,17 @@ export type apiRequest = {
     body?: any,
 }
 
-export const getAssets = async (address: string , baseURL: string) => {
+export const getAssets = async (address: string , baseURL: string) : Promise<any> => {
     const request: apiRequest = {
         method: 'GET',
         url: `${baseURL}/getNFTs/?owner=${address}`,
     }
 
     const response = await axios(request)
-    return response.data.result
+    return response.data
 }
 
-export const login = async (email: string, password: string, baseURL: string) => {
+export const login = async (email: string, password: string, baseURL: string) :  Promise<any> => {
     const request: apiRequest = {
         method: 'POST',
         url: `${baseURL}/login`,
@@ -27,7 +27,7 @@ export const login = async (email: string, password: string, baseURL: string) =>
     }
 
     const response = await axios(request)
-    return response.data
+    return response
 }
 
 /* const assets = [
