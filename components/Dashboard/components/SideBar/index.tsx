@@ -12,7 +12,7 @@ const SideBar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
-        <div className={styles.galleryContainer}>
+        <div className={styles.galleryContainer} onClick={() => window.open('/dashboard', '_self')}>
           <div className={styles.galleryImage}>
             <Image src={gallery} alt='Gallery' />
           </div>
@@ -23,7 +23,7 @@ const SideBar = () => {
         </div>
 
         <div className={styles.optionsContainer}>
-          <div className={styles.settingsContainer}>
+          <div className={styles.settingsContainer} onClick={() => window.open('/settings', '_self')}>
             <div className={styles.settingsImage}>
               <Image src={settings} alt='Settings' />
             </div>
@@ -33,7 +33,7 @@ const SideBar = () => {
             </div>
           </div>
 
-          <div className={styles.disconnectContainer}>
+          <div className={styles.disconnectContainer} onClick={() => window.open('/metamask', '_self')}>
             <div className={styles.disconnectImage}>
               <Image src={disconnect} alt='Disconnect' />
             </div>
