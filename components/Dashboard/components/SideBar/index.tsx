@@ -33,7 +33,7 @@ const SideBar = () => {
             </div>
           </div>
 
-          <div className={styles.disconnectContainer} onClick={() => window.open('/metamask', '_self')}>
+          <div className={styles.disconnectContainer} onClick={() => window.open('/', '_self')}>
             <div className={styles.disconnectImage}>
               <Image src={disconnect} alt='Disconnect' />
             </div>
