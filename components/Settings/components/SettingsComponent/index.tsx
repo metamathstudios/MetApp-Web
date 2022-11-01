@@ -2,12 +2,36 @@ import Image from "next/image"
 import styles from "./styles.module.scss"
 import julia from "./assets/julia.svg"
 
-import { useContext, useCallback, useEffect } from 'react'
+import { useContext, useCallback, useEffect, useState } from 'react'
 import { Web3ModalContext } from '../../../../contexts/Web3ModalProvider'
+
+import { getUserData } from "../../../../utils"
 
 const SettingsComponent = () => {
 
   const { account, disconnect } = useContext(Web3ModalContext);
+
+  const [name, setName] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    fetchUser();
+  }, [account]);
+
+  const fetchUser = () => {
+    if(process.env.METAPP_API_URL){
+      getUserData(process.env.METAPP_API_URL)
+      .then((res) => {
+        setName(res.data.user.name);
+        setEmail(res.data.user.email);
+    }).catch((error) => {
+        console.log(error)
+    })
+    }
+  }
+    
+ 
 
   const handleDisconnect = useCallback(() => {
     disconnect();
@@ -31,7 +55,7 @@ const SettingsComponent = () => {
               <div className={styles.dataContainer}>
                 <div className={styles.label}>Username</div>
 
-                <div className={styles.data}>Luan#0171</div>
+                <div className={styles.data}>{name}</div>
 
                 <div className={styles.line} />
               </div>
@@ -44,7 +68,7 @@ const SettingsComponent = () => {
                     </div>
 
                     <div className={styles.data}>
-                      luanpkfr@gmail.com
+                      {email}
                     </div>
                   </div>
 

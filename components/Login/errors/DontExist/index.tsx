@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 
 import signal from './assets/signal.svg'
 
-const InvalidEmail = () => {
+const DontExist = () => {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
@@ -13,11 +13,11 @@ const InvalidEmail = () => {
         </div>
 
         <div className={styles.error}>
-          Your email is invalid or already exists, check and try again.
+          The email you have used does not exist in our database.
         </div>
       </div>
     </div>
   )
 }
 
-export default InvalidEmail
+export default DontExist

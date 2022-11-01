@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 
 import signal from './assets/signal.svg'
 
-const InvalidEmail = () => {
+const InvalidInput = () => {
   return (
     <div className={styles.container}>
       <div className={styles.row}>
@@ -13,11 +13,11 @@ const InvalidEmail = () => {
         </div>
 
         <div className={styles.error}>
-          Your email is invalid or already exists, check and try again.
+          There are one or more invalid inputs in the sign up form!
         </div>
       </div>
     </div>
   )
 }
 
-export default InvalidEmail
+export default InvalidInput

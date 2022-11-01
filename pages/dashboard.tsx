@@ -1,10 +1,12 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import DashboardComponent from '../components/Dashboard'
+import Web3ModalProvider from '../contexts/Web3ModalProvider'
 
 const Dashboard: NextPage = () => {
   return (
     <>
+      <Web3ModalProvider>
       <Head>
         <title>MetApp</title>
         <meta name='description' content='Manage your nfts!' />
@@ -12,6 +14,7 @@ const Dashboard: NextPage = () => {
       </Head>
 
       <DashboardComponent />
+      </Web3ModalProvider>
     </>
   )
 }

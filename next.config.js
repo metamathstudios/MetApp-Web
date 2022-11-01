@@ -14,5 +14,6 @@ module.exports = {
     ALCHEMY_URL_POLYGON : process.env.ALCHEMY_URL_POLYGON,
     ALCHEMY_URL_GOERLI : process.env.ALCHEMY_URL_GOERLI,
     ALCHEMY_URL_MUMBAI : process.env.ALCHEMY_URL_MUMBAI,
+    METAPP_API_URL : process.env.METAPP_API_URL
   }
 }

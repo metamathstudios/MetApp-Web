@@ -13,7 +13,7 @@ const DataNotMatch = () => {
         </div>
 
         <div className={styles.error}>
-          The email or password you entered does not match our records. Check and try again
+          The email or password you entered does not match our records. Check and try again!
         </div>
       </div>
     </div>
