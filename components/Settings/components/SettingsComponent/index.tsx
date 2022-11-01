@@ -34,6 +34,7 @@ const SettingsComponent = () => {
  
 
   const handleDisconnect = useCallback(() => {
+    
     disconnect();
     window.open('/metamask', '_self');
   }, [disconnect]);
@@ -131,7 +132,7 @@ const SettingsComponent = () => {
               <div className={styles.closeAccount} onClick={() => window.open('/', '_self')}>Exit</div>
 
               <div className={styles.saveButtonContainer}>
-                <div className={styles.button}>Save</div>
+                <div className={styles.button} onClick={() => window.open('/nonfts', '_self')}>To Dashboard</div>
               </div>
             </div>
           </div>
