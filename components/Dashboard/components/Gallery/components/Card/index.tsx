@@ -6,16 +6,25 @@ import styles from './styles.module.scss'
 import ball from './assets/ball.svg'
 import ballActive from './assets/ballactive.svg'
 import polygon from './assets/polygon.svg'
-import ethereum from './assets/ethereum.svg'          
+import ethereum from './assets/ethereum.svg'         
 
 type nftProps = {
-  title: string,
+  title: string | undefined,
   image: any,
-  network: string,
+  network: number | null,
+  address: string | undefined,
+  id: number | undefined,
 }
 
 const Card = ({...props}: nftProps) => {
   const [active, setActive] = useState(false)
+
+  const networkIcon = {
+    1: ethereum,
+    5: ethereum,
+    137: polygon,
+    80001: polygon,
+  }
 
   return (
     <div className={styles.container}>
@@ -25,9 +34,9 @@ const Card = ({...props}: nftProps) => {
         </div>
 
         <div className={styles.nftContainer}>
-          <Image src={props.image} alt='NFT' />
+          <img src={props.image} alt='NFT' width={160} height={160} />
           <div className={styles.network}>
-            <Image src={props.network == 'ethereum' ? ethereum : polygon} alt='Network' />
+            { props.network && <Image src={networkIcon[props.network]} alt='Network' /> }
           </div>
         </div>
 

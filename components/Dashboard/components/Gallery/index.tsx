@@ -13,31 +13,38 @@ const Gallery = () => {
   const { chainId, account } = useContext(Web3ModalContext)
   const { assets, fetch } = useContext(AssetManagerContext)
 
-  const handle = async () => {
-    if(chainId && account) {
-    fetch(chainId, account)
+  useEffect(() => {
+    if (chainId && account) {
+      fetch(chainId, account)
     }
-  }
+  }, [chainId, account])
 
   useEffect(() => {
     console.log(assets)
   }, [assets])
 
+
+  // Populate Card components with assets
+  
   return (
     <div className={styles.container}>
       <div className={styles.columnContainer}>
         <div className={styles.text}>
           Activate your NTFs to appear in your application <br />
-          if you have not yet downloaded the application <span onClick={handle}>click here</span> <br />
+          if you have not yet downloaded the application <span>click here</span> <br />
           or enter the download tab
         </div>
 
         <div className={styles.gridContainer}>
-          <Card title='Bored Ape #4372' image={test2} network='ethereum' />
-          <Card title='Bored Ape #4372' image={test2} network='ethereum' />
-          <Card title='Bored Ape #4372' image={test2} network='polygon' />
-          <Card title='Bored Ape #4372' image={test2} network='ethereum' />
-          <Card title='Bored Ape #4372' image={test2} network='polygon' />
+          {assets.map((asset, index) => (
+            assets.at(index)?.isERC721 ? <Card
+              title={assets.at(index)?.name?.slice(0, 20)}
+              image={assets.at(index)?.image}
+              network={chainId}
+              address={assets.at(index)?.contractAddress}
+              id={assets.at(index)?.id}
+            /> : <></> 
+          ))}
         </div>
       </div>
     </div>

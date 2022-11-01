@@ -12,7 +12,7 @@ const SideBar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
-        <div className={styles.galleryContainer} onClick={() => window.open('/dashboard', '_self')}>
+        <div className={styles.galleryContainer} onClick={() => window.open('/nonfts', '_self')}>
           <div className={styles.galleryImage}>
             <Image src={gallery} alt='Gallery' />
           </div>

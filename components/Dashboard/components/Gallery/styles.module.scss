@@ -26,6 +26,11 @@
 
     .gridContainer {
       display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-gap: 20px;
+      justify-content: center;
+      width: 100%;
+      max-width: 800px;
       grid-template-areas: '1 2 3 4';
       gap: 30px;
     }

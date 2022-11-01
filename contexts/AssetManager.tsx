@@ -1,12 +1,14 @@
 import { createContext, useCallback, useState } from "react";
 import { getAssets } from "../utils";
 import { rpcUrls } from "../blockchain/constants";
+import { formatIpfsLink, validId } from "../utils/assets";
 
 export type Asset = {
     name: string;
     image: string;
     network: number;
-    id: string;
+    id: number;
+    isERC721: boolean;
     contractAddress: string;
 };
 
@@ -38,9 +40,10 @@ const AssetManager = ({ children }) => {
 
                 const _asset: Asset = {
                     name: assets.ownedNfts.at(i).metadata.name,
-                    image: assets.ownedNfts.at(i).metadata.image,
+                    image: formatIpfsLink(assets.ownedNfts.at(i).metadata.image),
                     network: chainId,
-                    id: assets.ownedNfts.at(i).id.tokenId,
+                    id: parseInt(assets.ownedNfts.at(i).id.tokenId.slice(2), 16),
+                    isERC721: validId(assets.ownedNfts.at(i).id.tokenId, assets.ownedNfts.at(i).metadata.name),
                     contractAddress: assets.ownedNfts.at(i).contract.address,
                 };
 
