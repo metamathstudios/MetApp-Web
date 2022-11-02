@@ -1,11 +1,19 @@
 import axios from 'axios';
 
-/* export type apiRequest = {
-    method: string,
-    url: string,
-    headers?: any,
-    body?: any,
-} */
+type nftProps = {
+    title: string | undefined,
+    image: any,
+    network: number | null,
+    address: string | undefined,
+    id: number | undefined,
+}
+
+const networks = {
+    1: "ETHEREUM",
+    5: "ETHEREUM_GOERLI",
+    137: "POLYGON",
+    80001: "POLYGON_MUMBAI",
+};
 
 export const getAssets = async (address: string, baseURL: string): Promise<any> => {
     const request: any = {
@@ -66,6 +74,62 @@ export const getUserData = async (baseURL: string): Promise<any> => {
         },
         maxRedirects: 0,
         data: ''
+    }
+
+    const response = await axios(request)
+    return response
+}
+
+export const createAsset = async ( asset : nftProps, baseURL: string ): Promise<any> => {
+
+    const auth = localStorage.getItem('userToken')
+
+    if(asset.network === null) {
+        throw new Error("Network not found")
+    }
+
+    const data = {
+        "name": asset.title,
+        "address_id": `${asset.address}/${asset.id}`,
+        "image": asset.image,
+        "network": `${networks[asset.network]}`,
+        "expiration": parseInt((Date.now()/1000 + 60*60*24*7).toString()).toString()
+      };
+    
+
+    const request: any = {
+        method: 'POST',
+        url: `${baseURL}/assets`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${auth}`
+        },
+        maxRedirects: 0,
+        data: data
+    }
+
+    const response = await axios(request)
+    return response
+}
+
+export const deleteAsset = async ( asset : nftProps, baseURL: string ): Promise<any> => {
+
+    const auth = localStorage.getItem('userToken')
+
+    const data = JSON.stringify({
+        "address": asset.address,
+        "id": asset.id,
+    });
+
+    const request: any = {
+        method: 'DELETE',
+        url: `${baseURL}/assets`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${auth}`
+        },
+        maxRedirects: 0,
+        data: data
     }
 
     const response = await axios(request)

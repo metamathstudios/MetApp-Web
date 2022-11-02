@@ -9,6 +9,7 @@ import polygon from './assets/polygon.svg'
 import ethereum from './assets/ethereum.svg'
 import { BlockchainContext } from '../../../../../../contexts/AuthBankProvider'
 import { Web3ModalContext } from '../../../../../../contexts/Web3ModalProvider'
+import { createAsset, deleteAsset } from '../../../../../../utils'
 
 type nftProps = {
   title: string | undefined,
@@ -18,11 +19,11 @@ type nftProps = {
   id: number | undefined,
 }
 
-const Card = ({...props}: nftProps) => {
-  
+const Card = ({ ...props }: nftProps) => {
+
   const { account } = useContext(Web3ModalContext)
   const { authBank } = useContext(BlockchainContext)
-  
+
   const [active, setActive] = useState(false)
 
   useEffect(() => {
@@ -32,49 +33,69 @@ const Card = ({...props}: nftProps) => {
         props.id,
       ).then(
         (index) => {
-          if(Number(index) > 0) {
+          if (Number(index) > 0) {
             setActive(true)
           } else {
             setActive(false)
-        }
-      }).catch(
-        (err) => {
-          console.log(err)
-        }
-      )
+          }
+        }).catch(
+          (err) => {
+            console.log(err)
+          }
+        )
     }
   }, [authBank, props.address, props.id, active])
 
   const handleActivate = async () => {
     if (authBank) {
-      if(!active && props.address && props.id) {
+      if (!active && props.address && props.id) {
         authBank.createAuth(
           props.address,
           props.id
-          ).then(
-            (tx) => {
-              console.log(tx)
-              setActive(true)
-            }
-          ).catch(
-            (err) => {
-              console.log(err)
-            }
-          )
+        ).then(
+          (tx) => {
+            console.log(tx)
+            setActive(true)
+            createAsset({ ...props }, process.env.METAPP_API_URL ? process.env.METAPP_API_URL : 'http://localhost:3001')
+              .then(
+                (response) => {
+                  console.log(response)
+                }
+              ).catch(
+                (error) => {
+                  console.log(error)
+                }
+              )
+          }
+        ).catch(
+          (err) => {
+            console.log(err)
+          }
+        )
       } else if (active && props.address && props.id) {
         authBank.revokeAuth(
           props.address,
           props.id
-          ).then(
-            (tx) => {
-              console.log(tx)
-              setActive(false)
-            }
-          ).catch(
-            (err) => {
-              console.log(err)
-            }
-          )
+        ).then(
+          (tx) => {
+            console.log(tx)
+            setActive(false)
+            deleteAsset({ ...props }, process.env.METAPP_API_URL ? process.env.METAPP_API_URL : 'http://localhost:3001')
+              .then(
+                (response) => {
+                  console.log(response)
+                }
+              ).catch(
+                (error) => {
+                  console.log(error)
+                }
+              )
+          }
+        ).catch(
+          (err) => {
+            console.log(err)
+          }
+        )
       }
     }
   }
@@ -96,7 +117,7 @@ const Card = ({...props}: nftProps) => {
         <div className={styles.nftContainer}>
           <img src={props.image} alt='NFT' width={160} height={160} />
           <div className={styles.network}>
-            { props.network && <Image src={networkIcon[props.network]} alt='Network' /> }
+            {props.network && <Image src={networkIcon[props.network]} alt='Network' />}
           </div>
         </div>
 
@@ -104,7 +125,7 @@ const Card = ({...props}: nftProps) => {
           <div className={styles.checkbox} onClick={handleActivate}>
             <div className={styles.checkball}>
               <div className={styles.imageContainer}>
-                <Image src={active == false ? ball : ballActive} alt='Check'/>
+                <Image src={active == false ? ball : ballActive} alt='Check' />
               </div>
             </div>
           </div>
