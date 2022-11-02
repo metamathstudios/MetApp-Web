@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Image from 'next/image'
 
 import styles from './styles.module.scss'
@@ -6,7 +6,9 @@ import styles from './styles.module.scss'
 import ball from './assets/ball.svg'
 import ballActive from './assets/ballactive.svg'
 import polygon from './assets/polygon.svg'
-import ethereum from './assets/ethereum.svg'         
+import ethereum from './assets/ethereum.svg'
+import { BlockchainContext } from '../../../../../../contexts/AuthBankProvider'
+import { Web3ModalContext } from '../../../../../../contexts/Web3ModalProvider'
 
 type nftProps = {
   title: string | undefined,
@@ -17,7 +19,65 @@ type nftProps = {
 }
 
 const Card = ({...props}: nftProps) => {
+  
+  const { account } = useContext(Web3ModalContext)
+  const { authBank } = useContext(BlockchainContext)
+  
   const [active, setActive] = useState(false)
+
+  useEffect(() => {
+    if (authBank && props.address && props.id) {
+      authBank.getTokenAuthIndex(
+        props.address,
+        props.id,
+      ).then(
+        (index) => {
+          if(Number(index) > 0) {
+            setActive(true)
+          } else {
+            setActive(false)
+        }
+      }).catch(
+        (err) => {
+          console.log(err)
+        }
+      )
+    }
+  }, [authBank, props.address, props.id, active])
+
+  const handleActivate = async () => {
+    if (authBank) {
+      if(!active && props.address && props.id) {
+        authBank.createAuth(
+          props.address,
+          props.id
+          ).then(
+            (tx) => {
+              console.log(tx)
+              setActive(true)
+            }
+          ).catch(
+            (err) => {
+              console.log(err)
+            }
+          )
+      } else if (active && props.address && props.id) {
+        authBank.revokeAuth(
+          props.address,
+          props.id
+          ).then(
+            (tx) => {
+              console.log(tx)
+              setActive(false)
+            }
+          ).catch(
+            (err) => {
+              console.log(err)
+            }
+          )
+      }
+    }
+  }
 
   const networkIcon = {
     1: ethereum,
@@ -41,7 +101,7 @@ const Card = ({...props}: nftProps) => {
         </div>
 
         <div className={active == false ? styles.checkboxContainer : styles.checkboxContainerActive}>
-          <div className={styles.checkbox} onClick={() => setActive(!active)}>
+          <div className={styles.checkbox} onClick={handleActivate}>
             <div className={styles.checkball}>
               <div className={styles.imageContainer}>
                 <Image src={active == false ? ball : ballActive} alt='Check'/>

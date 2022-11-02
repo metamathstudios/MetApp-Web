@@ -38,6 +38,7 @@ const Gallery = () => {
         <div className={styles.gridContainer}>
           {assets.map((asset, index) => (
             assets.at(index)?.isERC721 ? <Card
+              key={index}
               title={assets.at(index)?.name?.slice(0, 20)}
               image={assets.at(index)?.image}
               network={chainId}
